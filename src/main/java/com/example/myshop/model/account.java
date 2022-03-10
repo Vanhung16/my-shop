@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class account {
+public class Account{
     private UUID id;
     private String name;
     private String password;
