@@ -6,6 +6,7 @@ import com.example.myshop.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -13,6 +14,11 @@ import java.util.UUID;
 public class AccountServiceImpl implements AccountService{
     @Autowired
     AccountRepository accountRepository;
+
+    @Override
+    public List<Account> findAll() {
+        return accountRepository.findAll();
+    }
 
     @Override
     public <S extends Account> S save(S entity) {

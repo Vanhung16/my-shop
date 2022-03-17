@@ -2,10 +2,13 @@ package com.example.myshop.service;
 
 import com.example.myshop.domain.Account;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface AccountService {
+
+    List<Account> findAll();
 
     <S extends Account> S save(S entity);
 
