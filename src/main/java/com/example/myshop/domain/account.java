@@ -1,6 +1,6 @@
 package com.example.myshop.domain;
 
-import java.util.Date;
+
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -8,8 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
 
 
 import lombok.AllArgsConstructor;
@@ -26,8 +25,11 @@ public class Account {
     private UUID id;
     @Column(name = "name", columnDefinition = "nvarchar(20) not null")
     private String name;
+    @Column(name = "username", columnDefinition = "nvarchar(20) not null")
+    private String username;
     @Column(name = "password", length = 60, nullable = false)
     private String password;
-    @Temporal(TemporalType.DATE)
-    private Date created_at;
+    @Column(name = "email", columnDefinition ="nvarchar(50) not null")
+    private String email;
+    
 }

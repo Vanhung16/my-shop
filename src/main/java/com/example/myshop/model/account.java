@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class Account{
     private UUID id;
     private String name;
+    private String username;
     private String password;
-    private Date created_at;
+    private String email;
 }
