@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountDTO{
-    private UUID id;
+    private Long id;
     private String name;
     private String username;
     private String password;

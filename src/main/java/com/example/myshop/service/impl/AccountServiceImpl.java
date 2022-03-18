@@ -19,6 +19,7 @@ public class AccountServiceImpl implements AccountService{
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Override
     public Account login(String username, String password){
         Account opt = accountRepository.findByUsername(username);
         if(opt != null || bCryptPasswordEncoder.matches(password, opt.getPassword())){
@@ -28,13 +29,17 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
+    public Account findByUsername(String username) {
+        return accountRepository.findByUsername(username);
+    }
+
+    @Override
     public List<Account> findAll() {
         return accountRepository.findAll();
     }
 
     @Override
     public <S extends Account> S save(S entity) {
-        entity.setPassword(bCryptPasswordEncoder.encode(entity.getPassword()));
         return accountRepository.save(entity);
     }
 
@@ -49,11 +54,6 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public long count() {
-        return accountRepository.count();
-    }
-
-    @Override
     public void deleteById(UUID uuid) {
         accountRepository.deleteById(uuid);
     }
@@ -61,20 +61,5 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public void delete(Account entity) {
         accountRepository.delete(entity);
-    }
-
-    @Override
-    public void deleteAllById(Iterable<? extends UUID> uuids) {
-        accountRepository.deleteAllById(uuids);
-    }
-
-    @Override
-    public void deleteAll(Iterable<? extends Account> entities) {
-        accountRepository.deleteAll(entities);
-    }
-
-    @Override
-    public void deleteAll() {
-        accountRepository.deleteAll();
     }
 }

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>Title</title>
     <!-- Required meta tags -->
@@ -11,29 +11,29 @@
   </head>
   <body>
       <main class="container">
-          <form action="/api/accounts/registration" method="post" style="margin-top: 100px;">
+          <form th:action="@{/api/accounts/save}" th:object="${account}" method="post" style="margin-top: 100px;">
               <div class="col-5 offset-3">
                   <div class="card">
                       
                       <div class="card-body">
                           <div class="form-group">
                             <input type="text"
-                              class="form-control" name="name" id="name" aria-describedby="nameHid" placeholder="Họ Và Tên*">
+                              class="form-control" th:field="*{name}" name="name" id="name" aria-describedby="nameHid" placeholder="Họ Và Tên*">
                             <small id="nameHid" class="form-text text-muted">name is required</small>
                           </div>
                           <div class="form-group">
                             <input type="text"
-                              class="form-control" name="username" id="username" aria-describedby="usernameHid" placeholder="Tên đăng nhập*">
+                              class="form-control" th:field="*{username}" name="username" id="username" aria-describedby="usernameHid" placeholder="Tên đăng nhập*">
                             <small id="usernameHid" class="form-text text-muted">username is required</small>
                           </div>
                           <div class="form-group">
                             <input type="text"
-                              class="form-control" name="email" id="email" aria-describedby="emailHid" placeholder="Email*">
+                              class="form-control" th:field="*{email}" name="email" id="email" aria-describedby="emailHid" placeholder="Email*">
                             <small id="emailHid" class="form-text text-muted">email is required</small>
                           </div>
                           <div class="form-group">
                             <input type="password"
-                              class="form-control" name="password" id="password" aria-describedby="passwordHid" placeholder="Mật khẩu*">
+                              class="form-control" th:field="*{password}" name="password" id="password" aria-describedby="passwordHid" placeholder="Mật khẩu*">
                             <small id="passwordHid" class="form-text text-muted">password is required</small>
                           </div>
                          
@@ -52,7 +52,7 @@
                           <button class="btn btn-success mt-3" style="width:100%">Đăng ký   </button>
                       </div>
                       <div class="card-footer text-muted">
-                          Bạn đã có tài khoản? <a href="#">Đăng nhập</a>
+                          Bạn đã có tài khoản? <a href="/api/accounts/login">Đăng nhập</a>
                       </div>
                   </div>
               </div>
