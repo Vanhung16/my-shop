@@ -4,6 +4,7 @@ import com.example.myshop.domain.Account;
 import com.example.myshop.repository.AccountRepository;
 import com.example.myshop.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,17 @@ public class AccountServiceImpl implements AccountService{
     @Autowired
     AccountRepository accountRepository;
 
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public Account login(String username, String password){
+        Account opt = accountRepository.findByUsername(username);
+        if(opt != null || bCryptPasswordEncoder.matches(password, opt.getPassword())){
+            return opt;
+        }
+        return null;
+    }
+
     @Override
     public List<Account> findAll() {
         return accountRepository.findAll();
@@ -22,6 +34,7 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public <S extends Account> S save(S entity) {
+        entity.setPassword(bCryptPasswordEncoder.encode(entity.getPassword()));
         return accountRepository.save(entity);
     }
 
