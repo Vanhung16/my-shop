@@ -2,13 +2,13 @@ package com.example.myshop.controller;
 
 import com.example.myshop.domain.Account;
 import com.example.myshop.model.AccountDTO;
-import com.example.myshop.model.ResponseObject;
+
+import com.example.myshop.model.LoginAccount;
 import com.example.myshop.service.AccountService;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,9 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Controller
@@ -33,6 +32,10 @@ public class AccountController {
     AccountService accountService;
     @Autowired
     BCryptPasswordEncoder encoder;
+
+    @Autowired
+    HttpSession session;
+
     @GetMapping("/view")
     public String index(){
         return "index";
@@ -44,10 +47,7 @@ public class AccountController {
         return "/register";
     }
     @PostMapping("/save")
-    public ModelAndView save(ModelMap model, @Validated @ModelAttribute AccountDTO dto, BindingResult result ){
-        if(result.hasErrors()){
-            return new ModelAndView("/register");
-        }
+    public ModelAndView save(ModelMap model,@ModelAttribute AccountDTO dto ){
         Account entity = new Account();
         BeanUtils.copyProperties(dto, entity);
         entity.setPassword(encoder.encode(entity.getPassword()));
@@ -57,15 +57,28 @@ public class AccountController {
         return new ModelAndView("/index", model);
     }
     @GetMapping(value="/login")
-    public String login(ModelMap model, @RequestParam String username, @RequestParam String password) {
+    public String login(ModelMap model) {
 
-        // AccountDTO dto = new AccountDTO();
+        LoginAccount dto = new LoginAccount();
+        model.addAttribute("account", dto);
+        return "/login";
+    }
+    @PostMapping("/login")
+    public ModelAndView login(ModelMap model, @Validated @ModelAttribute("account") LoginAccount dto, BindingResult result){
 
-        if(accountService.login(username, password) == null){
-            return "/api/accounts/login";
+        if(result.hasErrors()){
+            return new ModelAndView("/login", model);
         }
-        
-        return "forward:/api/accounts/index";
+
+        Account account = accountService.login(dto.getUsername(), dto.getPassword());
+        System.out.print(account);
+        if(account == null)  {
+            model.addAttribute("message", "password or username not true");
+            return new ModelAndView("/login", model);
+        }
+        session.setAttribute("username", account.getUsername());
+        return new ModelAndView("/index", model);
+
     }
     
 }

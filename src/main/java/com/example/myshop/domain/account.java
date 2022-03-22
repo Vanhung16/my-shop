@@ -1,7 +1,6 @@
 package com.example.myshop.domain;
 
 
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,11 +21,9 @@ import lombok.NoArgsConstructor;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String username;
     @Column(length = 60)
     private String name;
-    @Column(length = 30)
-    private String username;
     @Column(length = 60, nullable = false)
     private String password;
     @Column(length = 120)
